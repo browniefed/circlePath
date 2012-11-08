@@ -6,12 +6,6 @@
 	</head>
 	<body>
 		<ul id="circle_menu">
-			<li class="center">M</li>
-			<li><a href="#">1 Link</a></li>
-			<li><a href="#">2 Link</a></li>
-			<li><a href="#">3 Link</a></li>
-			<li><a href="#">4 Link</a></li>
-			<li><a href="#">5 Link</a></li>
 		</ul>
 		
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -20,8 +14,45 @@
 
 		var opts = {
 
+		};
+		var items = {
+			center: { icon: 'img/appbar.list.png'},
+			e: [
+				{
+					icon: 'img/appbar.magnify.png',
+					link: '#',
+					cb: function() {},
+					data: 'search',
+					trigger: 'evt_click'
+				},
+				{
+					icon: 'img/appbar.printer.png',
+					link: '#',
+					cb: function() {},
+					data: 'appbar.printer',
+					trigger: 'evt_click'
+				}
+			],
+			w: [
+				{
+					icon: 'img/appbar.refresh.png',
+					link: '#',
+					cb: function() {},
+					data: 'appbar.refresh',
+					trigger: 'evt_click'
+				},
+				{
+					icon: 'img/appbar.user.add.png',
+					link: '#',
+					cb: function() {},
+					data: 'appbar.user.add',
+					trigger: 'evt_click'
+				}
+
+			]
+
 		}
-		$('#circle_menu').circlePath(opts);	
+		$('#circle_menu').circlePath(items, opts);
 		</script>
 	</body>
 </html>

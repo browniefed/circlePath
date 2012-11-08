@@ -4,28 +4,62 @@
  * Licensed under the WTFPL
  */
 ;(function($, window, document, undefined) {
-	$.fn.circlePath = function(options) {
 		
-		options = $.extend({}, $.fn.circlePath.options, options);
-		return this.each(function() {
-			var eles = $(this).find('li:not(.center)'),
-			center = $(this).find('li.center'),
-			radius = 300,
-			width = eles.outerWidth(),
-			height = 300,
-			angle = 0,
-			step = (2 * Math.PI) / eles.length;
-			$(this).css('position','relative');
-			center.addClass('cirPathCenter');
-			eles.addClass('cirPathEle');
-			eles.each(function(i, v){
-				var x = Math.round((width/2) + radius * Math.cos(angle) - $(this).width()/2);
-				var y = Math.round((height/2) + radius * Math.sin(angle) - $(this).height()/2);
-				$(this).css({left: x + 'px', top: y + 'px', display: 'block'});
-				angle += step;
+		//For old timers
+		if (typeof Object.create !== 'function') {
+			Object.create = function(o) {
+				var F = function() {};
+				F.prototype = o;
+				return new F();
+			}
+		}
+
+		var pluginName = 'circlePath',
+		defaults = {
+			on: 'click',
+			open: function() {},
+			close: function() {},
+			init: function() {}
+		};
+
+		
+		var circlePath = {
+			init: function(ele, items, options) {
+				this._$ele = $(ele);
+				
+				this._initCss();
+				this.hook();
+			},
+
+			hook: function() {
+				
+			},
+
+			open: function() {
+				
+			},
+
+			close: function() {
+				
+			},
+
+			_initCss: function() {
+				
+			}
+		}
+
+		$.fn[pluginName] = function(items, options) {
+			return this.each(function() {
+				var obj = Object.create(circlePath);
+				obj.init(this, items, options);
+				$(this).data('circlePath', obj);
 			});
-		});
-	}
+		}
+
+
+})(jQuery, window, document);
+
+
 	/*
 		Options:
 			delay: Time it takes for the menu to appear and execute transition effects
@@ -45,17 +79,11 @@
 			-- Default: 3
 			maxWidth: false
 			-- Default none
+			on: What triggers the opening of the menu
+			-- Default: click
+			-- Options: hover, click, other event name
+			open: Function to call when menu opens, triggers once completely opened
+			close: Function to call when closes, triggers once completely closed
+			init: Function called on the initiation of plugin
 			(Add other options like, partial circles to create feature like Path)
 	*/
-
-	$.fn.circlePath.options = {
-			delay: 100,
-			showTransition: ['fade','slide'],
-			hideTransition: ['fade','slide'],
-			start: 'N',
-			location: ['NE'],
-			allowMultRows: true,
-			maxItems: 3,
-			maxWidth: false
-	};
-})(jQuery, window, document);

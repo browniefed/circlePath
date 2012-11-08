@@ -1,7 +1,22 @@
+.cirPathTop {
+	position: relative;
+	list-style: none;
+}
+.cirPathTop img {
+	outline: none;
+}
 .cirPathCenter {
 	position: relative;
+	cursor: pointer;
 }
-.cirPathEle {
+.cirPathItem {
 	position: absolute;
 	display: none;
+	cursor: pointer;
+}
+
+#circle_menu {
+	position: relative;
+	display: block;
+	margin: 200px;
 }
