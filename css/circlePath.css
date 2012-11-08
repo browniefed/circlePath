@@ -1,20 +1,20 @@
 .cirPathTop {
 	position: relative;
-	list-style: none;
 }
 .cirPathTop img {
 	outline: none;
-}
-.cirPathCenter {
-	position: relative;
-	cursor: pointer;
 }
 .cirPathItem {
 	position: absolute;
 	display: none;
 	cursor: pointer;
+	list-style: none;
 }
-
+.cirPathcenter {
+	position: relative;
+	cursor: pointer;
+	display: block;
+}
 #circle_menu {
 	position: relative;
 	display: block;
