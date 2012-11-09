@@ -181,7 +181,7 @@
 			_getPosition: function(location, i) {
 				var self = this,
 					center = self._angles[location][0] + Math.floor(((self._angles[location][0] - self._angles[location][1])/2)),
-					step = Math.abs(self._angles[location][1] - self._angles[location][0])/self._counts[location];
+					step = Math.abs(self._angles[location][1] - self._angles[location][0])/(self._counts[location] - 1);
 
 				if (self._counts[location] === 1) {
 					return self._getXY(center, 1);
@@ -199,9 +199,7 @@
 			_getXY: function(angle, radius, i, step) {
 				i = i || 0;
 				step = step || 0;
-				console.log(i, step);
 				angle += (i * step);
-				console.log(angle);
 				var x = (Math.cos( (angle * (Math.PI/180))) * 150),
 					y = (Math.sin( (angle * (Math.PI/180))) * 150);
 				return {x:x, y:y};
