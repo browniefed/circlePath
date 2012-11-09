@@ -1,7 +1,7 @@
 .cirPathTop {
 	position: relative;
 }
-.cirPathTop img {
+.cirPathTop a {
 	outline: none;
 }
 .cirPathItem {

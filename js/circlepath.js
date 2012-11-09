@@ -41,13 +41,13 @@
 			init: function(ele, items, options) {
 				this._$ele = $(ele);
 				this._counts = {};
+				this._angles = angles;
 				this._items = this._buildItems(items);
 				this._options = $.extend({}, defaults, options);
-				this._angles = angles;
 				this._state = 'closed';
 				this._addItems();
 				this.hook();
-				console.log(this._counts);
+				
 			},
 			hook: function() {
 				var self = this;
@@ -103,10 +103,11 @@
 				//SAVE THE MATH
 				//Move the center to center jesus christ
 				var self = this,
-				pos = self._$ele.find('.cirPathcenter').position();
+				pos = self._$ele.find('.cirPathcenter').position(),
+				lis = self._$ele.find('li:not(.cirPathcenter)');
 				self._state = 'opening';
-				var x = (Math.cos( (self._angles.e[0] * (Math.PI/180))) * 150);
-				var y = (Math.sin( (self._angles.e[0] * (Math.PI/180))) * 150);
+
+				/*
 				self._$ele.find('.cirPathe').eq(1).show().css({top: x + pos.top + 'px', left: y + pos.left + 'px'});
 				x = (Math.cos( (self._angles.e[1] * (Math.PI/180))) * 150);
 				y = (Math.sin( (self._angles.e[1] * (Math.PI/180))) * 150);
@@ -118,8 +119,10 @@
 				y = (Math.sin( (self._angles.w[1] * (Math.PI/180))) * 150);
 				self._$ele.find('.cirPathw').eq(0).show().css({top: x + pos.top + 'px', left: y + pos.left + 'px'});
 				//How to move elements east, west, or to respective locations
-				$.each(self._items, function(i, val) {
-
+				*/
+				$.each(lis, function(i, val) {
+					var data = $(this).find('a').data();
+					$(this).css({top: data.x + pos.top + 'px', left: data.y + pos.left + 'px'}).show();
 				});
 				self._state = 'open';
 				//callback + trigger
@@ -145,12 +148,15 @@
 					if ($.isArray(val)) {
 						s._counts[key] = val.length;
 						$.each(val, function(i, v) {
-							t.push($.extend({}, v, {location: key}));
+							var xy = self._getPosition(key, i);
+							xy.location = key;
+							t.push($.extend({}, v, xy));
 						});
 					} else {
 						tempItems.push($.extend({}, val, {location: key}));
 					}
 				});
+				
 				return tempItems;
 			},
 			_addItems: function() {
@@ -171,6 +177,34 @@
 								);
 					self._$ele.prepend(li);
 				});
+			},
+			_getPosition: function(location, i) {
+				var self = this,
+					center = self._angles[location][0] + Math.floor(((self._angles[location][0] - self._angles[location][1])/2)),
+					step = Math.abs(self._angles[location][1] - self._angles[location][0])/self._counts[location];
+
+				if (self._counts[location] === 1) {
+					return self._getXY(center, 1);
+				} else if (self._counts[location] === 2) {
+					if (i === 1) {
+						return self._getXY(self._angles[location][0]);
+					} else {
+						return self._getXY(self._angles[location][1]);
+					}
+				} else {
+					return self._getXY(self._angles[location][0], 150, i, step);
+				}
+
+			},
+			_getXY: function(angle, radius, i, step) {
+				i = i || 0;
+				step = step || 0;
+				console.log(i, step);
+				angle += (i * step);
+				console.log(angle);
+				var x = (Math.cos( (angle * (Math.PI/180))) * 150),
+					y = (Math.sin( (angle * (Math.PI/180))) * 150);
+				return {x:x, y:y};
 			}
 		}
 
