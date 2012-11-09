@@ -26,14 +26,14 @@
 			init: function() {}
 		};
 		angles = {
-			n: [338, 22],
-			ne: [22, 67],
+			s: [338, 383],
+			se: [22, 67],
 			e: [68, 112],
-			se: [112, 157],
-			s: [157, 202],
-			sw: [202, 247],
+			ne: [112, 157],
+			n: [157, 202],
+			nw: [202, 247],
 			w: [247, 292],
-			nw: [292, 337]
+			sw: [292, 337]
 		}
 
 		
@@ -96,30 +96,11 @@
 			},
 
 			open: function() {
-				//Get difference between angles above
-				//Determine fitting radius based on item widths and such
-				//DO SOME MATH
-				//Animate them
-				//SAVE THE MATH
-				//Move the center to center jesus christ
 				var self = this,
 				pos = self._$ele.find('.cirPathcenter').position(),
 				lis = self._$ele.find('li:not(.cirPathcenter)');
 				self._state = 'opening';
 
-				/*
-				self._$ele.find('.cirPathe').eq(1).show().css({top: x + pos.top + 'px', left: y + pos.left + 'px'});
-				x = (Math.cos( (self._angles.e[1] * (Math.PI/180))) * 150);
-				y = (Math.sin( (self._angles.e[1] * (Math.PI/180))) * 150);
-				self._$ele.find('.cirPathe').eq(0).show().css({top: x + pos.top + 'px', left: y + pos.left + 'px'});
-				var x = (Math.cos( (self._angles.w[0] * (Math.PI/180))) * 150);
-				var y = (Math.sin( (self._angles.w[0] * (Math.PI/180))) * 150);
-				self._$ele.find('.cirPathw').eq(1).show().css({top: x + pos.top + 'px', left: y + pos.left + 'px'});
-				x = (Math.cos( (self._angles.w[1] * (Math.PI/180))) * 150);
-				y = (Math.sin( (self._angles.w[1] * (Math.PI/180))) * 150);
-				self._$ele.find('.cirPathw').eq(0).show().css({top: x + pos.top + 'px', left: y + pos.left + 'px'});
-				//How to move elements east, west, or to respective locations
-				*/
 				$.each(lis, function(i, val) {
 					var data = $(this).find('a').data();
 					$(this).css({top: data.x + pos.top + 'px', left: data.y + pos.left + 'px'}).show();
@@ -141,7 +122,6 @@
 				var self = this,
 				tempItems = [];
 				$.each(items, function(key, val) {
-					//Add temp to scope so we can access it in the loop
 					var t = tempItems,
 					s = self;
 					//Get rid of jQuery isArray
@@ -182,7 +162,6 @@
 				var self = this,
 					center = self._angles[location][0] + Math.floor(((self._angles[location][0] - self._angles[location][1])/2)),
 					step = Math.abs(self._angles[location][1] - self._angles[location][0])/(self._counts[location] - 1);
-
 				if (self._counts[location] === 1) {
 					return self._getXY(center, 1);
 				} else if (self._counts[location] === 2) {
@@ -200,8 +179,12 @@
 				i = i || 0;
 				step = step || 0;
 				angle += (i * step);
-				var x = (Math.cos( (angle * (Math.PI/180))) * 150),
-					y = (Math.sin( (angle * (Math.PI/180))) * 150);
+				
+				angle = (angle >= 360) ? angle - 360 : angle;
+
+				var x = (Math.cos( (angle * (Math.PI/180))) * 250),
+					y = (Math.sin( (angle * (Math.PI/180))) * 250);
+
 				return {x:x, y:y};
 			}
 		}
