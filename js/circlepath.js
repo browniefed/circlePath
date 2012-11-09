@@ -18,11 +18,11 @@
 
 		var pluginName = 'circlePath',
 		defaults = {
-			radius: 0,
-			autoRadius: true,
+			radius: 150,
+			autoRadius: false,
 			on: 'click',
 			open: function() {},
-			close: function() {},
+			closed: function() {},
 			init: function() {}
 		};
 		angles = {
@@ -42,12 +42,12 @@
 				this._$ele = $(ele);
 				this._counts = {};
 				this._angles = angles;
-				this._items = this._buildItems(items);
 				this._options = $.extend({}, defaults, options);
 				this._state = 'closed';
+				this._items = this._buildItems(items);
 				this._addItems();
 				this.hook();
-				
+				this._options.init();
 			},
 			hook: function() {
 				var self = this;
@@ -103,19 +103,28 @@
 
 				$.each(lis, function(i, val) {
 					var data = $(this).find('a').data();
-					$(this).css({top: data.x + pos.top + 'px', left: data.y + pos.left + 'px'}).show();
+					$(this).css({display: 'block'}).animate({top: data.x + pos.top + 'px', left: data.y + pos.left + 'px', opacity: 1})
 				});
 				self._state = 'open';
-				//callback + trigger
+				self._options.open();
 				return true;
 			},
 
 			close: function() {
-				var self = this;
+				var self = this,
+				pos = self._$ele.find('.cirPathcenter').position(),
+				lis = self._$ele.find('li:not(.cirPathcenter)');
 				self._state = 'closing';
+
+				$.each(lis, function(i, val) {
+					var data = $(this).find('a').data();
+					$(this).animate({top: pos.top + 'px', left: pos.left + 'px', opacity: 0}, function() {
+						$(this).css({display: 'none'});
+					})
+				});
 			
 				self._state = 'closed';
-				//callback + trigger
+				self._options.closed();
 				return true;
 			},
 			_buildItems: function(items) {
@@ -162,16 +171,17 @@
 				var self = this,
 					center = self._angles[location][0] + Math.floor(((self._angles[location][0] - self._angles[location][1])/2)),
 					step = Math.abs(self._angles[location][1] - self._angles[location][0])/(self._counts[location] - 1);
+
 				if (self._counts[location] === 1) {
-					return self._getXY(center, 1);
+					return self._getXY(center, self._options.radius);
 				} else if (self._counts[location] === 2) {
 					if (i === 1) {
-						return self._getXY(self._angles[location][0]);
+						return self._getXY(self._angles[location][0], self._options.radius);
 					} else {
-						return self._getXY(self._angles[location][1]);
+						return self._getXY(self._angles[location][1], self._options.radius);
 					}
 				} else {
-					return self._getXY(self._angles[location][0], 150, i, step);
+					return self._getXY(self._angles[location][0], self._options.radius, i, step);
 				}
 
 			},
@@ -182,8 +192,8 @@
 				
 				angle = (angle >= 360) ? angle - 360 : angle;
 
-				var x = (Math.cos( (angle * (Math.PI/180))) * 250),
-					y = (Math.sin( (angle * (Math.PI/180))) * 250);
+				var x = (Math.cos( (angle * (Math.PI/180))) * radius),
+					y = (Math.sin( (angle * (Math.PI/180))) * radius);
 
 				return {x:x, y:y};
 			}

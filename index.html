@@ -13,11 +13,11 @@
 		<script type="text/javascript">
 
 		var opts = {
-
+			radius: 150
 		};
 		var items = {
 			center: { icon: 'img/appbar.list.png'},
-			s: [
+			w: [
 				{
 					icon: 'img/appbar.magnify.png',
 					cb: function() {},
@@ -40,6 +40,14 @@
 					icon: 'img/appbar.printer.png',
 					cb: function() {},
 					data: 'appbar.printer',
+					trigger: 'evt_click'
+				}
+			],
+			e: [
+				{
+					icon: 'img/appbar.magnify.png',
+					cb: function() {},
+					data: 'search',
 					trigger: 'evt_click'
 				},
 				{

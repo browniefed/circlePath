@@ -9,11 +9,13 @@
 	display: none;
 	cursor: pointer;
 	list-style: none;
+	opacity: 0;
 }
 .cirPathcenter {
 	position: relative;
 	cursor: pointer;
 	display: block;
+	opacity: 1;
 }
 #circle_menu {
 	position: relative;
