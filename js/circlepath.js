@@ -47,7 +47,7 @@
 				this._items = this._buildItems(items);
 				this._addItems();
 				this.hook();
-				this._options.init();
+				this._options.init(this);
 			},
 			hook: function() {
 				var self = this;
@@ -106,7 +106,7 @@
 					$(this).css({display: 'block'}).animate({top: data.x + pos.top + 'px', left: data.y + pos.left + 'px', opacity: 1})
 				});
 				self._state = 'open';
-				self._options.open();
+				self._options.open(self);
 				return true;
 			},
 
@@ -124,7 +124,7 @@
 				});
 			
 				self._state = 'closed';
-				self._options.closed();
+				self._options.closed(self);
 				return true;
 			},
 			_buildItems: function(items) {
